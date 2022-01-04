@@ -4,7 +4,9 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from selenium import webdriver
 from selenium.webdriver import DesiredCapabilities
+from UI import textUI
 
+'''
 #selenium 사용하기위한 webdriver옵션 세팅
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument('--headless')
@@ -34,6 +36,7 @@ driver.find_element_by_xpath(login_x_path).click()
 #wait 개선예정
 driver.implicitly_wait(10)
 driver.find_element_by_xpath('/html/body/div[2]/div/main/div/div[3]/div[1]/ul/li[8]/a').click()
+'''
 
 #DB갱신코드
 
@@ -43,56 +46,40 @@ class Special_Item(QWidget):
     def __init__(self):
         super(Special_Item, self).__init__()
 
-        self.leftlist = QListWidget()
-        self.leftlist.insertItem(0, '하급-수렵')
-        self.leftlist.insertItem(1, '중급-수렵')
-        self.leftlist.insertItem(2, '상급-수렵')
-        self.leftlist.insertItem(3, '하급-낚시')
-        self.leftlist.insertItem(4, '중급-낚시')
-        self.leftlist.insertItem(5, '상급-낚시')
-        self.leftlist.insertItem(6, '하급-고고학')
-        self.leftlist.insertItem(7, '중급-고고학')
-        self.leftlist.insertItem(8, '상급-고고학')
+        self.potion = QListWidget()
+        self.potion.insertItem(0, '포션1')
+        self.potion.insertItem(1, '포션2')
+        self.potion.insertItem(2, '포션3')
 
-        self.h_low = QWidget()
+        self.low0 = QWidget()
+        self.low1 = QWidget()
+        self.low2 = QWidget()
+
+        textUI.low0(self)
+        textUI.low1(self)
+        textUI.low2(self)
+
         layout = QFormLayout()
-
         label1 = QLabel()
-        label1.setText("하급 오레하 융화재료x30\n")
-
-        label2 = QLabel()
-        label2.setText("오레하 두툼한 생고기x9")
-
-        label3 = QLabel()
-        label3.setText("두툼한 생고기x72")
-
-        label4 = QLabel()
-        label4.setText("질긴 가죽x36")
-
-        label5 = QLabel()
-        label5.setText("203골드")
-
+        label1.setText(self.potion.currentItem())
         layout.addWidget(label1)
-        layout.addWidget(label2)
-        layout.addWidget(label3)
-        layout.addWidget(label4)
-        layout.addWidget(label5)
 
-        self.h_low.setLayout(layout)
 
         self.Stack = QStackedWidget(self)
-        self.Stack.addWidget(self.h_low)
+        self.Stack.addWidget(self.low0)
+        self.Stack.addWidget(self.low1)
+        self.Stack.addWidget(self.low2)
 
         hbox = QHBoxLayout(self)
-        hbox.addWidget(self.leftlist)
+        hbox.addWidget(self.potion)
         hbox.addWidget(self.Stack)
 
 
         self.setLayout(hbox)
-        self.leftlist.currentRowChanged.connect(self.display)
+        self.potion.currentRowChanged.connect(self.display)
         self.setGeometry(300, 50, 10, 10)
-        self.setWindowTitle('StackedWidget demo')
         self.show()
+
 
     def display(self, i):
         self.Stack.setCurrentIndex(i)
@@ -108,8 +95,7 @@ class MyApp(QMainWindow):
         self.setWindowIcon(QIcon('lostark.jpg'))
         self.setWindowTitle('제작효율')
         self.setGeometry(100, 100, 1000, 500)
-
-        # 하단에 날짜 출력
+        # 하단 날짜 출력
         self.date = QDate.currentDate()
         self.statusBar().showMessage(self.date.toString(Qt.DefaultLocaleLongDate))
 
@@ -121,6 +107,7 @@ class MyApp(QMainWindow):
         tabs.addTab(self.Tab_Special_Item(), '공격 아이템')
         tabs.addTab(self.Tab_Special_Item(), '전투보조 아이템')
         self.setCentralWidget(tabs)
+
 
     def Tab_Potion(self):
         wg = Special_Item()
@@ -168,7 +155,6 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = MyApp()
     ex.show()
-
     sys.exit(app.exec_())
 
 
