@@ -2,12 +2,12 @@ from PyQt5.QtWidgets import *
 import main
 
 def low0(self):
+    layout = QFormLayout()
+    label1 = QLabel()
+    label1.setText("low0")
+    layout.addWidget(label1)
 
-    self.potion2 = QListWidget()
-    self.potion2.insertItem(0, '하급-수렵')
-    self.potion2.insertItem(1, '중급-수렵')
-    self.potion2.insertItem(2, '상급-수렵')
-    return self.potion2
+    self.low0.setLayout(layout)
 
 
 

@@ -38,11 +38,16 @@ driver.implicitly_wait(10)
 driver.find_element_by_xpath('/html/body/div[2]/div/main/div/div[3]/div[1]/ul/li[8]/a').click()
 '''
 
-#DB갱신코드
 
-#위젯
+# DB갱신코드
+
+# 위젯
 # Speical_Item
+
+
 class Special_Item(QWidget):
+    a = 0
+
     def __init__(self):
         super(Special_Item, self).__init__()
 
@@ -50,6 +55,12 @@ class Special_Item(QWidget):
         self.potion.insertItem(0, '포션1')
         self.potion.insertItem(1, '포션2')
         self.potion.insertItem(2, '포션3')
+        self.potion.itemClicked.connect(self.clicked)
+
+        self.potion2 = QListWidget()
+        self.potion2.insertItem(0, '포션1')
+        self.potion2.insertItem(1, '포션2')
+        self.potion2.insertItem(2, '포션3')
 
         self.low0 = QWidget()
         self.low1 = QWidget()
@@ -59,12 +70,6 @@ class Special_Item(QWidget):
         textUI.low1(self)
         textUI.low2(self)
 
-        layout = QFormLayout()
-        label1 = QLabel()
-        label1.setText(self.potion.currentItem())
-        layout.addWidget(label1)
-
-
         self.Stack = QStackedWidget(self)
         self.Stack.addWidget(self.low0)
         self.Stack.addWidget(self.low1)
@@ -72,19 +77,34 @@ class Special_Item(QWidget):
 
         hbox = QHBoxLayout(self)
         hbox.addWidget(self.potion)
+        hbox.addWidget(self.potion2)
         hbox.addWidget(self.Stack)
-
 
         self.setLayout(hbox)
         self.potion.currentRowChanged.connect(self.display)
         self.setGeometry(300, 50, 10, 10)
         self.show()
 
+    def clicked(self):
+        cur = self.potion.currentRow()
+        if(cur==1):
+            self.set_potion(1)
+        else:
+            self.set_potion(0)
+        print(cur)
+
+    def set_potion(self,i):
+        if(i==1):
+            self.potion2.setVisible(False)
+        else:
+            self.potion2.setVisible(True)
+
 
     def display(self, i):
         self.Stack.setCurrentIndex(i)
 
-class MyApp(QMainWindow):
+
+class Main(QMainWindow):
     def __init__(self):
         super().__init__()
         self.initUI()
@@ -108,21 +128,6 @@ class MyApp(QMainWindow):
         tabs.addTab(self.Tab_Special_Item(), '전투보조 아이템')
         self.setCentralWidget(tabs)
 
-
-    def Tab_Potion(self):
-        wg = Special_Item()
-        self.setCentralWidget(wg)
-
-        hbox = QHBoxLayout()
-        hbox.addWidget(wg)
-
-        vbox = QVBoxLayout()
-        vbox.addLayout(hbox)
-
-        tab = QWidget()
-        tab.setLayout(vbox)
-        return tab
-
     def Tab_Special_Item(self):
         wg = Special_Item()
         self.setCentralWidget(wg)
@@ -137,27 +142,12 @@ class MyApp(QMainWindow):
         tab.setLayout(vbox)
         return tab
 
-    def Tab_Attack_Item(self):
-        wg = Special_Item()
-        self.setCentralWidget(wg)
-
-        hbox = QHBoxLayout()
-        hbox.addWidget(wg)
-
-        vbox = QVBoxLayout()
-        vbox.addLayout(hbox)
-
-        tab = QWidget()
-        tab.setLayout(vbox)
-        return tab
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ex = MyApp()
+    ex = Main()
     ex.show()
     sys.exit(app.exec_())
-
-
 
 
 
