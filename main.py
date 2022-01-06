@@ -53,14 +53,19 @@ class Special_Item(QWidget):
 
         self.potion = QListWidget()
         self.potion.insertItem(0, '포션1')
-        self.potion.insertItem(1, '포션2')
-        self.potion.insertItem(2, '포션3')
+        self.potion.insertItem(1, '포션1')
+        self.potion.insertItem(2, '포션1')
         self.potion.itemClicked.connect(self.clicked)
 
         self.potion2 = QListWidget()
-        self.potion2.insertItem(0, '포션1')
+        self.potion2.insertItem(0, '포션2')
         self.potion2.insertItem(1, '포션2')
-        self.potion2.insertItem(2, '포션3')
+        self.potion2.insertItem(2, '포션2')
+
+        self.potion3 = QListWidget()
+        self.potion3.insertItem(0, '포션3')
+        self.potion3.insertItem(1, '포션3')
+        self.potion3.insertItem(2, '포션3')
 
         self.low0 = QWidget()
         self.low1 = QWidget()
@@ -78,6 +83,7 @@ class Special_Item(QWidget):
         hbox = QHBoxLayout(self)
         hbox.addWidget(self.potion)
         hbox.addWidget(self.potion2)
+        hbox.addWidget(self.potion3)
         hbox.addWidget(self.Stack)
 
         self.setLayout(hbox)
