@@ -1,5 +1,4 @@
 from PyQt5.QtWidgets import *
-import main
 
 def low0(self):
     self.tableWidget = QTableWidget()

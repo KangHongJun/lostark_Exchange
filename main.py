@@ -4,15 +4,18 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from selenium import webdriver
 from selenium.webdriver import DesiredCapabilities
+from Exchange import Battle_Item, Life
 from UI import textUI
 
-'''
+
 #selenium 사용하기위한 webdriver옵션 세팅
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument('--headless')
+chrome_options.add_argument("disable-gpu")
 chrome_options.add_argument('--de')
 chrome_options.add_argument('--no-sandbox')
 chrome_options.add_argument('--disable-dev-shm-usage')
+
 caps = DesiredCapabilities().CHROME
 caps["pageLoadStrategy"]="none"
 
@@ -33,21 +36,32 @@ PW.clear()
 PW.send_keys('starmine97@')
 driver.find_element_by_xpath(login_x_path).click()
 
-#wait 개선예정
-driver.implicitly_wait(10)
+driver.implicitly_wait(5)
 driver.find_element_by_xpath('/html/body/div[2]/div/main/div/div[3]/div[1]/ul/li[8]/a').click()
-'''
+
 
 
 # DB갱신코드
+Battle_Item.ExPotion(driver)
+Battle_Item.ExBuff(driver)
+Battle_Item.ExAttack(driver)
+Battle_Item.ExAssistance(driver)
+Life.ExPlant(driver)
+Life.ExLogging(driver)
+Life.ExMining(driver)
+Life.ExHunting(driver)
+Life.ExFishing(driver)
+Life.ExArchaeology(driver)
 
+
+
+print("start")
 # 위젯
 # Speical_Item
 
 
 class Special_Item(QWidget):
     a = 0
-
     def __init__(self):
         super(Special_Item, self).__init__()
 
