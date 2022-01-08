@@ -4,10 +4,10 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from selenium import webdriver
 from selenium.webdriver import DesiredCapabilities
-from Exchange import Battle_Item, Life
+from Exchange import Battle_Item, Life, Reinforce
 from UI import textUI
 
-
+'''
 #selenium 사용하기위한 webdriver옵션 세팅
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument('--headless')
@@ -35,13 +35,11 @@ PW = driver.find_element_by_xpath('/html/body/div[1]/div[2]/div/fieldset[1]/div[
 PW.clear()
 PW.send_keys('starmine97@')
 driver.find_element_by_xpath(login_x_path).click()
-
-driver.implicitly_wait(5)
+driver.implicitly_wait(10)
 driver.find_element_by_xpath('/html/body/div[2]/div/main/div/div[3]/div[1]/ul/li[8]/a').click()
 
+# DB갱신
 
-
-# DB갱신코드
 Battle_Item.ExPotion(driver)
 Battle_Item.ExBuff(driver)
 Battle_Item.ExAttack(driver)
@@ -52,19 +50,54 @@ Life.ExMining(driver)
 Life.ExHunting(driver)
 Life.ExFishing(driver)
 Life.ExArchaeology(driver)
-
-
-
+Reinforce.ExReforging(driver)
+Reinforce.ExReforging_Add(driver)
+'''
 print("start")
+
+
+
 # 위젯
+class Tab_Reinforce(QWidget):
+    a = 0
+    def __init__(self):
+        super(Tab_Reinforce, self).__init__()
+        self.potion = QListWidget()
+        self.potion.resize(300,500)
+        self.potion.insertItem(0, '전체')
+        self.potion.insertItem(1, '재련 재료')
+        self.potion.insertItem(2, '재련 추가 재료')
+
+        self.low0 = QWidget()
+        self.low1 = QWidget()
+        self.low2 = QWidget()
+
+        textUI.low0(self)
+        textUI.low1(self)
+        textUI.low2(self)
+
+        self.Stack = QStackedWidget(self)
+        self.Stack.addWidget(self.low0)
+        self.Stack.addWidget(self.low1)
+        self.Stack.addWidget(self.low2)
+
+        hbox = QHBoxLayout(self)
+        hbox.addWidget(self.potion)
+        hbox.addWidget(self.Stack)
+
+        self.setLayout(hbox)
+        self.potion.currentRowChanged.connect(self.display)
+        self.setGeometry(300, 50, 10, 10)
+        self.show()
+
+    def display(self, i):
+        self.Stack.setCurrentIndex(i)
+
 # Speical_Item
-
-
 class Special_Item(QWidget):
     a = 0
     def __init__(self):
         super(Special_Item, self).__init__()
-
         self.potion = QListWidget()
         self.potion.insertItem(0, '포션1')
         self.potion.insertItem(1, '포션1')
@@ -128,28 +161,28 @@ class Main(QMainWindow):
     def __init__(self):
         super().__init__()
         self.initUI()
-        self.make_tap()
+        self.Make_Tab()
 
     def initUI(self):
         # UI 기본
         self.setWindowIcon(QIcon('lostark.jpg'))
-        self.setWindowTitle('제작효율')
-        self.setGeometry(100, 100, 1000, 500)
+        self.setWindowTitle('거래소')
+        self.setGeometry(100, 100, 800, 500)
         # 하단 날짜 출력
         self.date = QDate.currentDate()
         self.statusBar().showMessage(self.date.toString(Qt.DefaultLocaleLongDate))
 
-    def make_tap(self):
+    def Make_Tab(self):
         # QWidget 적용
         tabs = QTabWidget()
-        tabs.addTab(self.Tab_Special_Item(), '포션')
-        tabs.addTab(self.Tab_Special_Item(), '특수 아이템')
-        tabs.addTab(self.Tab_Special_Item(), '공격 아이템')
-        tabs.addTab(self.Tab_Special_Item(), '전투보조 아이템')
+        tabs.addTab(self.Tab_Item(Tab_Reinforce()), '강화재료')
+     #   tabs.addTab(self.Tab_Special_Item(), '전투용품')
+      #  tabs.addTab(self.Tab_Special_Item(), '생활')
+       # tabs.addTab(self.Tab_Special_Item(), '제작')
         self.setCentralWidget(tabs)
 
-    def Tab_Special_Item(self):
-        wg = Special_Item()
+    def Tab_Item(self,tab):
+        wg = tab
         self.setCentralWidget(wg)
 
         hbox = QHBoxLayout()
@@ -161,6 +194,11 @@ class Main(QMainWindow):
         tab = QWidget()
         tab.setLayout(vbox)
         return tab
+
+
+
+
+
 
 
 if __name__ == '__main__':
