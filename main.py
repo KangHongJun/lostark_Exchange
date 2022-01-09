@@ -5,7 +5,7 @@ from PyQt5.QtCore import *
 from selenium import webdriver
 from selenium.webdriver import DesiredCapabilities
 from Exchange import Battle_Item, Life, Reinforce
-from UI import textUI
+from UI import Tab_Item, MakeTab
 
 '''
 #selenium 사용하기위한 webdriver옵션 세팅
@@ -58,40 +58,7 @@ print("start")
 
 
 # 위젯
-class Tab_Reinforce(QWidget):
-    a = 0
-    def __init__(self):
-        super(Tab_Reinforce, self).__init__()
-        self.potion = QListWidget()
-        self.potion.resize(300,500)
-        self.potion.insertItem(0, '전체')
-        self.potion.insertItem(1, '재련 재료')
-        self.potion.insertItem(2, '재련 추가 재료')
 
-        self.low0 = QWidget()
-        self.low1 = QWidget()
-        self.low2 = QWidget()
-
-        textUI.low0(self)
-        textUI.low1(self)
-        textUI.low2(self)
-
-        self.Stack = QStackedWidget(self)
-        self.Stack.addWidget(self.low0)
-        self.Stack.addWidget(self.low1)
-        self.Stack.addWidget(self.low2)
-
-        hbox = QHBoxLayout(self)
-        hbox.addWidget(self.potion)
-        hbox.addWidget(self.Stack)
-
-        self.setLayout(hbox)
-        self.potion.currentRowChanged.connect(self.display)
-        self.setGeometry(300, 50, 10, 10)
-        self.show()
-
-    def display(self, i):
-        self.Stack.setCurrentIndex(i)
 
 # Speical_Item
 class Special_Item(QWidget):
@@ -118,9 +85,9 @@ class Special_Item(QWidget):
         self.low1 = QWidget()
         self.low2 = QWidget()
 
-        textUI.low0(self)
-        textUI.low1(self)
-        textUI.low2(self)
+        Tab_Item.low0(self)
+        Tab_Item.low1(self)
+        Tab_Item.low2(self)
 
         self.Stack = QStackedWidget(self)
         self.Stack.addWidget(self.low0)
@@ -156,12 +123,11 @@ class Special_Item(QWidget):
     def display(self, i):
         self.Stack.setCurrentIndex(i)
 
-
 class Main(QMainWindow):
     def __init__(self):
         super().__init__()
         self.initUI()
-        self.Make_Tab()
+        MakeTab.Make_Tab(self)
 
     def initUI(self):
         # UI 기본
@@ -171,15 +137,6 @@ class Main(QMainWindow):
         # 하단 날짜 출력
         self.date = QDate.currentDate()
         self.statusBar().showMessage(self.date.toString(Qt.DefaultLocaleLongDate))
-
-    def Make_Tab(self):
-        # QWidget 적용
-        tabs = QTabWidget()
-        tabs.addTab(self.Tab_Item(Tab_Reinforce()), '강화재료')
-     #   tabs.addTab(self.Tab_Special_Item(), '전투용품')
-      #  tabs.addTab(self.Tab_Special_Item(), '생활')
-       # tabs.addTab(self.Tab_Special_Item(), '제작')
-        self.setCentralWidget(tabs)
 
     def Tab_Item(self,tab):
         wg = tab
@@ -194,12 +151,6 @@ class Main(QMainWindow):
         tab = QWidget()
         tab.setLayout(vbox)
         return tab
-
-
-
-
-
-
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
