@@ -1,8 +1,8 @@
 from PyQt5.QtWidgets import *
-import DB
+from DB import GetData
 
-Reforging = DB.GetData.Reforging_Data()
-Reforging_Add = DB.GetData.Reforging_Add_Data()
+Reforging = GetData.Reforging_Data()
+Reforging_Add = GetData.Reforging_Add_Data()
 
 def SetTableValue(self,list):
     i = 0
