@@ -70,6 +70,6 @@ def Fishing_Data():
 
 def Archaeology_Data():
     conn = sqlite3.connect("Life.db")
-    Assistance = pd.read_sql("SELECT * FROM Assistance",conn,index_col=None)
-    Assistance_List = Assistance.values.tolist()
-    return Assistance_List
+    Archaeology = pd.read_sql("SELECT * FROM Archaeology",conn,index_col=None)
+    Archaeology_List = Archaeology.values.tolist()
+    return Archaeology_List
