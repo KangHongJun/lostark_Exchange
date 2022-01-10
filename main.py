@@ -57,72 +57,7 @@ print("start")
 
 
 
-# 위젯
-
-
-# Speical_Item
-class Special_Item(QWidget):
-    a = 0
-    def __init__(self):
-        super(Special_Item, self).__init__()
-        self.potion = QListWidget()
-        self.potion.insertItem(0, '포션1')
-        self.potion.insertItem(1, '포션1')
-        self.potion.insertItem(2, '포션1')
-        self.potion.itemClicked.connect(self.clicked)
-
-        self.potion2 = QListWidget()
-        self.potion2.insertItem(0, '포션2')
-        self.potion2.insertItem(1, '포션2')
-        self.potion2.insertItem(2, '포션2')
-
-        self.potion3 = QListWidget()
-        self.potion3.insertItem(0, '포션3')
-        self.potion3.insertItem(1, '포션3')
-        self.potion3.insertItem(2, '포션3')
-
-        self.low0 = QWidget()
-        self.low1 = QWidget()
-        self.low2 = QWidget()
-
-        Tab_Item.low0(self)
-        Tab_Item.low1(self)
-        Tab_Item.low2(self)
-
-        self.Stack = QStackedWidget(self)
-        self.Stack.addWidget(self.low0)
-        self.Stack.addWidget(self.low1)
-        self.Stack.addWidget(self.low2)
-
-        hbox = QHBoxLayout(self)
-        hbox.addWidget(self.potion)
-        hbox.addWidget(self.potion2)
-        hbox.addWidget(self.potion3)
-        hbox.addWidget(self.Stack)
-
-        self.setLayout(hbox)
-        self.potion.currentRowChanged.connect(self.display)
-        self.setGeometry(300, 50, 10, 10)
-        self.show()
-
-    def clicked(self):
-        cur = self.potion.currentRow()
-        if(cur==1):
-            self.set_potion(1)
-        else:
-            self.set_potion(0)
-        print(cur)
-
-    def set_potion(self,i):
-        if(i==1):
-            self.potion2.setVisible(False)
-        else:
-            self.potion2.setVisible(True)
-
-
-    def display(self, i):
-        self.Stack.setCurrentIndex(i)
-
+# 위젯]
 class Main(QMainWindow):
     def __init__(self):
         super().__init__()
