@@ -15,6 +15,7 @@ Hunting = GetData.Hunting_Data()
 Fishing = GetData.Fishing_Data()
 Archaeology = GetData.Archaeology_Data()
 
+#거래소
 def SetTableValue_Ex(self,list,row,col):
     self.tableWidget = QTableWidget(self)
     self.tableWidget.setRowCount(row)
@@ -29,6 +30,18 @@ def SetTableValue_Ex(self,list,row,col):
         self.tableWidget.setItem(i, 0, name)
         self.tableWidget.setItem(i, 1, price)
         i = i + 1
+
+#제작정보
+def SetProduct(self,Item_resipe):
+
+    resipe = Item_resipe.split("  ")
+    layout = QFormLayout()
+
+    self.label = QLabel()
+    self.label.setText(resipe[0]+resipe[1]+"\n"+resipe[2]+resipe[3])
+    layout.addWidget(self.label)
+
+
 
 class Item_Reinfoece:
     def UI_Reforging_ALL(self):
@@ -137,6 +150,35 @@ class Item_Life:
         layout.addWidget(self.tableWidget)
 
         self.ui_archaeology.setLayout(layout)
+
+#제작 UI
+class Product:
+    def Flash(self):
+        resipe = "화려한 버섯  3  싱싱한 버섯  12  투박한 버섯  24  조합비  10"
+        SetProduct(self,resipe)
+        layout = QFormLayout()
+        layout.addWidget(self.label)
+
+        self.flash.setLayout(layout)
+
+    def Flash2(self):
+        resipe = "화려한 버섯  5  싱싱한 버섯  14  투박한 버섯  24  조합비  10"
+        SetProduct(self,resipe)
+        layout = QFormLayout()
+        layout.addWidget(self.label)
+
+        self.flash2.setLayout(layout)
+
+    def Flash3(self):
+        resipe = "화려한 버섯  7  싱싱한 버섯  14  투박한 버섯  24  조합비  10"
+        SetProduct(self,resipe)
+        layout = QFormLayout()
+        layout.addWidget(self.label)
+
+        self.flash3.setLayout(layout)
+
+
+
 
 
 

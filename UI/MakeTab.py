@@ -230,7 +230,7 @@ class Special_Item(QWidget):
         hbox.addWidget(self.ppotion)
         hbox.addWidget(self.attack)
         hbox.addWidget(self.special)
-        hbox.addWidget(self.Stack)
+        #hbox.addWidget(self.Stack)
         hbox.addWidget(self.Stack2)
 
         self.attack.setVisible(False)
@@ -243,27 +243,25 @@ class Special_Item(QWidget):
         self.setGeometry(300, 50, 10, 10)
         self.show()
 
-
-
     def ppotion(self):
         self.ppotion = QListWidget()
         self.ppotion.insertItem(0, '회복약')
         self.ppotion.insertItem(1, '고급 회복약')
         self.ppotion.insertItem(2, '정령의 회복약')
 
-        self.ui_battle_all = QWidget()
-        self.ui_potion = QWidget()
-        self.ui_attack = QWidget()
+        self.flash = QWidget()
+        self.flash2 = QWidget()
+        self.flash3 = QWidget()
 
-        UIitem = Tab_Item.Item_Battle
-        UIitem.UI_Battle_Item_ALL(self)
-        UIitem.UI_Potion(self)
-        UIitem.UI_Attack(self)
+        UIitem = Tab_Item.Product
+        UIitem.Flash(self)
+        UIitem.Flash2(self)
+        UIitem.Flash3(self)
 
         self.Stack2 = QStackedWidget(self)
-        self.Stack2.addWidget(self.ui_battle_all)
-        self.Stack2.addWidget(self.ui_potion)
-        self.Stack2.addWidget(self.ui_attack)
+        self.Stack2.addWidget(self.flash)
+        self.Stack2.addWidget(self.flash2)
+        self.Stack2.addWidget(self.flash3)
 
         self.ppotion.currentRowChanged.connect(self.display)
 
