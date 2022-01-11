@@ -1,8 +1,10 @@
 from PyQt5.QtWidgets import *
 from DB import GetData
+import re
 
 Reforging = GetData.Reforging_Data()
 Reforging_Add = GetData.Reforging_Add_Data()
+
 Potion = GetData.Potion_Data()
 Buff = GetData.Buff_Data()
 Attack = GetData.Attack_Data()
@@ -14,6 +16,10 @@ Mining = GetData.Mining_Data()
 Hunting = GetData.Hunting_Data()
 Fishing = GetData.Fishing_Data()
 Archaeology = GetData.Archaeology_Data()
+
+Reinforce = Reforging + Reforging_Add
+Life = Plant + Logging + Mining + Hunting + Fishing + Archaeology
+Battle_Item = Potion + Buff + Attack + Assistance
 
 #거래소
 def SetTableValue_Ex(self,list,row,col):
@@ -34,12 +40,26 @@ def SetTableValue_Ex(self,list,row,col):
 #제작정보
 def SetProduct(self,Item_resipe):
 
-    resipe = Item_resipe.split("  ")
     layout = QFormLayout()
 
-    self.label = QLabel()
-    self.label.setText(resipe[0]+resipe[1]+"\n"+resipe[2]+resipe[3])
+    name = re.findall(r'\D+', Item_resipe)
+    number = re.findall(r'\d+', Item_resipe)
+
+    self.label = QTextBrowser(self)
+    i = 0
+    for i in range(len(name)):
+        self.label.append(name[i]+" "+number[i])
+
+
+    test11(self,name,number)
+
     layout.addWidget(self.label)
+
+def test11(self,Item_name, Item_number):
+    print(Item_name)
+    print(Item_number)
+
+
 
 
 
@@ -154,7 +174,7 @@ class Item_Life:
 #제작 UI
 class Product:
     def Flash(self):
-        resipe = "화려한 버섯  3  싱싱한 버섯  12  투박한 버섯  24  조합비  10"
+        resipe = "화려한 버섯3싱싱한 버섯12투박한 버섯24조합비10"
         SetProduct(self,resipe)
         layout = QFormLayout()
         layout.addWidget(self.label)
@@ -162,7 +182,7 @@ class Product:
         self.flash.setLayout(layout)
 
     def Flash2(self):
-        resipe = "화려한 버섯  5  싱싱한 버섯  14  투박한 버섯  24  조합비  10"
+        resipe = "화려한 버섯5싱싱한 버섯14투박한 버섯24조합비10"
         SetProduct(self,resipe)
         layout = QFormLayout()
         layout.addWidget(self.label)
@@ -170,7 +190,7 @@ class Product:
         self.flash2.setLayout(layout)
 
     def Flash3(self):
-        resipe = "화려한 버섯  7  싱싱한 버섯  14  투박한 버섯  24  조합비  10"
+        resipe = "화려한 버섯7싱싱한 버섯14투박한 버섯24조합비10"
         SetProduct(self,resipe)
         layout = QFormLayout()
         layout.addWidget(self.label)
