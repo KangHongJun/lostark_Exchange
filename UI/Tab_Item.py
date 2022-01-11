@@ -1,7 +1,10 @@
 from PyQt5.QtWidgets import *
 from DB import GetData
+from PyQt5.QtCore import Qt
+from PyQt5 import QtCore
 import re
 
+#데이터 가져오기
 Reforging = GetData.Reforging_Data()
 Reforging_Add = GetData.Reforging_Add_Data()
 
@@ -21,48 +24,79 @@ Reinforce = Reforging + Reforging_Add
 Life = Plant + Logging + Mining + Hunting + Fishing + Archaeology
 Battle_Item = Potion + Buff + Attack + Assistance
 
+ALL_ITEM = Reinforce + Life + Battle_Item
+
 #거래소
 def SetTableValue_Ex(self,list,row,col):
+    #테이블 생성
     self.tableWidget = QTableWidget(self)
     self.tableWidget.setRowCount(row)
     self.tableWidget.setColumnCount(col)
     column_headers = ['아이템명', '가격']
     self.tableWidget.setHorizontalHeaderLabels(column_headers)
+    #QTableWidgetItem에 아이템정보 삽입
     i = 0
     for col, row in list:
-        row = str(row)
         name = QTableWidgetItem(col)
-        price = QTableWidgetItem(row)
+        price = QTableWidgetItem()
+        price.setData(Qt.DisplayRole,row)
         self.tableWidget.setItem(i, 0, name)
         self.tableWidget.setItem(i, 1, price)
         i = i + 1
 
 #제작정보
-def SetProduct(self,Item_resipe):
-
-    layout = QFormLayout()
-
+def SetProduct(self,Item_name,Item_resipe):
+    #조합법의 이름 및 숫자 구분하여 저장
     name = re.findall(r'\D+', Item_resipe)
     number = re.findall(r'\d+', Item_resipe)
+    product = str(Product_cost(self, name, number))
+
+    cost = str(Item_cost(self,Item_name))
 
     self.label = QTextBrowser(self)
     i = 0
+    self.label.append(Item_name + "개 조합법\n")
     for i in range(len(name)):
         self.label.append(name[i]+" "+number[i])
 
+    self.label.append("\n판매가격 : " + cost)
+    self.label.append("제작비용 : "+ product)
 
-    test11(self,name,number)
-
-    layout.addWidget(self.label)
-
-def test11(self,Item_name, Item_number):
-    print(Item_name)
-    print(Item_number)
+    benefit = round((float(cost)-float(product)),2)
+    self.label.append("\n이득액 :" +str(benefit))
 
 
+def Item_cost(self,Item_name):
+    name = re.findall(r'\D+', Item_name)
+    number = re.findall(r'\d+', Item_name)
+
+    print(3*int(number[0]))
+
+    for i in range(len(ALL_ITEM)):
+        if ALL_ITEM[i][0] == name[0]:
+            price = ALL_ITEM[i][1] * int(number[0])
+            print(price)
+            return(price)
 
 
+def Product_cost(self,Item_name, Item_number):
+    Len = int(len(Item_name))
+    #전체 배열에서 해당하는 위치 가져오기
+    num = []
+    for j in range(Len):
+        for i in range(len(Life)):
+            if Life[i][0] == Item_name[j]:
+                num.append(i)
 
+    price = 0
+    for q in range(Len-1):
+        price += Life[num[q]][1] * int(Item_number[q])
+    price = round(price+int(Item_number[Len-1]), 2)
+
+    return (price)
+
+
+#강화재료 table
 class Item_Reinfoece:
     def UI_Reforging_ALL(self):
         SetTableValue_Ex(self,Reforging + Reforging_Add,53,2)
@@ -85,6 +119,7 @@ class Item_Reinfoece:
 
         self.ui_ref_add.setLayout(layout)
 
+#배틀 아이템 table
 class Item_Battle:
     def UI_Battle_Item_ALL(self):
         SetTableValue_Ex(self,Potion+Attack+Assistance+Buff,52,2)
@@ -121,6 +156,7 @@ class Item_Battle:
 
         self.ui_buff.setLayout(layout)
 
+#생활 재료 table
 class Item_Life:
     def UI_Life_ALL(self):
         SetTableValue_Ex(self,Plant+Logging+Mining+Hunting+Fishing+Archaeology,35,2)
@@ -171,27 +207,32 @@ class Item_Life:
 
         self.ui_archaeology.setLayout(layout)
 
+
 #제작 UI
 class Product:
     def Flash(self):
+        Item_name = "섬광 수류탄3"
         resipe = "화려한 버섯3싱싱한 버섯12투박한 버섯24조합비10"
-        SetProduct(self,resipe)
+        SetProduct(self,Item_name,resipe)
         layout = QFormLayout()
         layout.addWidget(self.label)
 
         self.flash.setLayout(layout)
 
     def Flash2(self):
-        resipe = "화려한 버섯5싱싱한 버섯14투박한 버섯24조합비10"
-        SetProduct(self,resipe)
+        Item_name = "섬광 수류탄3"
+        resipe = "화려한 버섯5싱싱한 버섯12투박한 버섯24조합비10"
+        SetProduct(self, Item_name, resipe)
+
         layout = QFormLayout()
         layout.addWidget(self.label)
 
         self.flash2.setLayout(layout)
 
     def Flash3(self):
-        resipe = "화려한 버섯7싱싱한 버섯14투박한 버섯24조합비10"
-        SetProduct(self,resipe)
+        Item_name = "섬광 수류탄3"
+        resipe = "화려한 버섯7싱싱한 버섯12투박한 버섯24조합비10"
+        SetProduct(self, Item_name, resipe)
         layout = QFormLayout()
         layout.addWidget(self.label)
 
