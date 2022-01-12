@@ -1,8 +1,8 @@
 from PyQt5.QtWidgets import *
 from DB import GetData
 from PyQt5.QtCore import Qt
-from PyQt5 import QtCore
 import re
+import Function
 
 #데이터 가져오기
 Reforging = GetData.Reforging_Data()
@@ -50,8 +50,8 @@ def SetProduct(self,Item_name,Item_resipe):
     name = re.findall(r'\D+', Item_resipe)
     number = re.findall(r'\d+', Item_resipe)
     product = str(Product_cost(self, name, number))
-
     cost = str(Item_cost(self,Item_name))
+    fee = Function.Fee(int(cost))
 
     self.label = QTextBrowser(self)
     i = 0
@@ -62,35 +62,33 @@ def SetProduct(self,Item_name,Item_resipe):
     self.label.append("\n판매가격 : " + cost)
     self.label.append("제작비용 : "+ product)
 
-    benefit = round((float(cost)-float(product)),2)
+    benefit = round((float(cost)-float(product)-float(fee)),2)
     self.label.append("\n이득액 :" +str(benefit))
 
-
+#return 제작품 가격
 def Item_cost(self,Item_name):
     name = re.findall(r'\D+', Item_name)
     number = re.findall(r'\d+', Item_name)
 
-    print(3*int(number[0]))
-
     for i in range(len(ALL_ITEM)):
         if ALL_ITEM[i][0] == name[0]:
             price = ALL_ITEM[i][1] * int(number[0])
-            print(price)
             return(price)
 
-
+#return 조합비용
 def Product_cost(self,Item_name, Item_number):
     Len = int(len(Item_name))
+
     #전체 배열에서 해당하는 위치 가져오기
     num = []
     for j in range(Len):
-        for i in range(len(Life)):
-            if Life[i][0] == Item_name[j]:
+        for i in range(len(ALL_ITEM)):
+            if ALL_ITEM[i][0] == Item_name[j]:
                 num.append(i)
 
     price = 0
     for q in range(Len-1):
-        price += Life[num[q]][1] * int(Item_number[q])
+        price += ALL_ITEM[num[q]][1] * int(Item_number[q])
     price = round(price+int(Item_number[Len-1]), 2)
 
     return (price)
@@ -210,6 +208,45 @@ class Item_Life:
 
 #제작 UI
 class Product:
+    #Potion
+    def Healing(self):
+        Item_name = "회복약3"
+        resipe = "수줍은 들꽃5들꽃10조합비0"
+        SetProduct(self, Item_name, resipe)
+        layout = QFormLayout()
+        layout.addWidget(self.label)
+
+        self.healing.setLayout(layout)
+
+    def Rare_Healing(self):
+        Item_name = "고급 회복약3"
+        resipe = "수줍은 들꽃9들꽃18조합비15"
+        SetProduct(self, Item_name, resipe)
+        layout = QFormLayout()
+        layout.addWidget(self.label)
+
+        self.rare_healing.setLayout(layout)
+
+    def Spirit_Healing(self):
+        Item_name = "정령의 회복약3"
+        resipe = "화사한 들꽃6수줍은 들꽃24들꽃48조합비30"
+        SetProduct(self, Item_name, resipe)
+        layout = QFormLayout()
+        layout.addWidget(self.label)
+
+        self.spirit_healing.setLayout(layout)
+
+    def SSpirit_Healing(self):
+        Item_name = "빛나는 정령의 회복약2"
+        resipe = "정령의 회복약3화사한 들꽃8조합비30"
+        SetProduct(self, Item_name, resipe)
+        layout = QFormLayout()
+        layout.addWidget(self.label)
+
+        self.sspirit_healing.setLayout(layout)
+
+
+
     def Flash(self):
         Item_name = "섬광 수류탄3"
         resipe = "화려한 버섯3싱싱한 버섯12투박한 버섯24조합비10"
@@ -231,7 +268,7 @@ class Product:
 
     def Flash3(self):
         Item_name = "섬광 수류탄3"
-        resipe = "화려한 버섯7싱싱한 버섯12투박한 버섯24조합비10"
+        resipe = "화려한 버섯3싱싱한 버섯12투박한 버섯24조합비10"
         SetProduct(self, Item_name, resipe)
         layout = QFormLayout()
         layout.addWidget(self.label)

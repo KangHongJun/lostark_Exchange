@@ -8,15 +8,12 @@ def Make_Tab(self):
     tabs.addTab(self.Tab_Item(Tab_Battle_Item()), '전투용품')
     tabs.addTab(self.Tab_Item(Tab_Life()), '생활')
     tabs.addTab(self.Tab_Item(Tab_Product()), '제작정보')
-
-    # tabs.addTab(self.Tab_Item(), '제작')
     self.setCentralWidget(tabs)
 
 class Tab_Reinforce(QWidget):
     def __init__(self):
         super(Tab_Reinforce, self).__init__()
         self.Reinforce = QListWidget()
-        self.Reinforce.resize(300,500)
         self.Reinforce.insertItem(0, '전체')
         self.Reinforce.insertItem(1, '재련 재료')
         self.Reinforce.insertItem(2, '재련 추가 재료')
@@ -41,8 +38,6 @@ class Tab_Reinforce(QWidget):
 
         self.setLayout(hbox)
         self.Reinforce.currentRowChanged.connect(self.display)
-        self.setGeometry(300, 50, 10, 10)
-        self.show()
 
     def display(self, i):
         self.Stack.setCurrentIndex(i)
@@ -51,7 +46,6 @@ class Tab_Battle_Item(QWidget):
     def __init__(self):
         super(Tab_Battle_Item, self).__init__()
         self.battle_item = QListWidget()
-        self.battle_item.resize(300,500)
         self.battle_item.insertItem(0, '전체')
         self.battle_item.insertItem(1, '배틀아이템 - 회복형')
         self.battle_item.insertItem(2, '배틀아이템 - 공격형')
@@ -86,8 +80,6 @@ class Tab_Battle_Item(QWidget):
 
         self.setLayout(hbox)
         self.battle_item.currentRowChanged.connect(self.display)
-        self.setGeometry(300, 50, 10, 10)
-        self.show()
 
     def display(self, i):
         self.Stack.setCurrentIndex(i)
@@ -96,7 +88,6 @@ class Tab_Life(QWidget):
     def __init__(self):
         super(Tab_Life, self).__init__()
         self.Life = QListWidget()
-        self.Life.resize(300,500)
         self.Life.insertItem(0, '전체')
         self.Life.insertItem(1, '식물채집')
         self.Life.insertItem(2, '벌목')
@@ -137,8 +128,6 @@ class Tab_Life(QWidget):
 
         self.setLayout(hbox)
         self.Life.currentRowChanged.connect(self.display)
-        self.setGeometry(300, 50, 10, 10)
-        self.show()
 
     def display(self, i):
         self.Stack.setCurrentIndex(i)
@@ -149,67 +138,63 @@ class Tab_Product(QWidget):
         super(Tab_Product, self).__init__()
         self.product = QListWidget()
         self.product.insertItem(0, '배틀 아이템 - 회복형')
-        self.product.insertItem(1, '배틀 아이템 - 폭탄')
-        self.product.insertItem(2, '배틀 아이템 - 수류탄')
-        self.product.insertItem(3, '배틀 아이템 - 로브')
-        self.product.insertItem(4, '배틀 아이템 - 기타')
-        self.product.insertItem(5, '특수 아이템')
+        self.product.insertItem(1, '배틀 아이템 - 공격형')
+        self.product.insertItem(2, '배틀 아이템 - 기능성')
+        self.product.insertItem(3, '배틀 아이템 - 버프형')
+        self.product.insertItem(4, '특수 아이템')
         self.product.itemClicked.connect(self.clicked)
+
 
         self.potion()
         self.attack()
+        self.assist()
+        self.buff()
         self.special()
 
-        self.ui_ref_all = QWidget()
-        self.ui_ref = QWidget()
-        self.ui_ref_add = QWidget()
-
-        UIitem = Tab_Item.Item_Reinfoece
-        UIitem.UI_Reforging_ALL(self)
-        UIitem.UI_Reforging(self)
-        UIitem.UI_Reforging_Add(self)
-
         self.Stack = QStackedWidget(self)
-        self.Stack.addWidget(self.ui_ref_all)
-        self.Stack.addWidget(self.ui_ref)
-        self.Stack.addWidget(self.ui_ref_add)
 
         hbox = QHBoxLayout(self)
         hbox.addWidget(self.product)
         hbox.addWidget(self.potion)
         hbox.addWidget(self.attack)
+        hbox.addWidget(self.assist)
+        hbox.addWidget(self.buff)
         hbox.addWidget(self.special)
-        #hbox.addWidget(self.Stack)
+        # hbox.addWidget(self.Stack)
         hbox.addWidget(self.Stack2)
 
         self.attack.setVisible(False)
+        self.assist.setVisible(False)
+        self.buff.setVisible(False)
         self.special.setVisible(False)
 
         self.setLayout(hbox)
         self.product.currentRowChanged.connect(self.display)
-
-        self.setGeometry(300, 50, 10, 10)
-        self.show()
+        #self.show()
 
     def potion(self):
         self.potion = QListWidget()
         self.potion.insertItem(0, '회복약')
         self.potion.insertItem(1, '고급 회복약')
         self.potion.insertItem(2, '정령의 회복약')
+        self.potion.insertItem(2, '빛나는 정령의 회복약')
 
-        self.flash = QWidget()
-        self.flash2 = QWidget()
-        self.flash3 = QWidget()
+        self.healing = QWidget()
+        self.rare_healing = QWidget()
+        self.spirit_healing = QWidget()
+        self.sspirit_healing = QWidget()
 
         UIitem = Tab_Item.Product
-        UIitem.Flash(self)
-        UIitem.Flash2(self)
-        UIitem.Flash3(self)
+        UIitem.Healing(self)
+        UIitem.Rare_Healing(self)
+        UIitem.Spirit_Healing(self)
+        UIitem.SSpirit_Healing(self)
 
         self.Stack2 = QStackedWidget(self)
-        self.Stack2.addWidget(self.flash)
-        self.Stack2.addWidget(self.flash2)
-        self.Stack2.addWidget(self.flash3)
+        self.Stack2.addWidget(self.healing)
+        self.Stack2.addWidget(self.rare_healing)
+        self.Stack2.addWidget(self.spirit_healing)
+        self.Stack2.addWidget(self.sspirit_healing)
         self.potion.currentRowChanged.connect(self.display2)
 
         return self.potion
@@ -218,9 +203,25 @@ class Tab_Product(QWidget):
         self.attack = QListWidget()
         self.attack.insertItem(0, '공격1')
         self.attack.insertItem(1, '공격2')
-        self.attack.insertItem(2, '공격3')
+        self.attack.insertItem(2, '공격격')
 
         return self.attack
+
+    def assist(self):
+        self.assist = QListWidget()
+        self.assist.insertItem(0, '기능')
+        self.assist.insertItem(1, '기능')
+        self.assist.insertItem(2, '기능')
+
+        return self.assist
+
+    def buff(self):
+        self.buff = QListWidget()
+        self.buff.insertItem(0, 'buff')
+        self.buff.insertItem(1, 'buff')
+        self.buff.insertItem(2, 'buff')
+
+        return self.buff
 
     def special(self):
         self.special = QListWidget()
@@ -235,14 +236,32 @@ class Tab_Product(QWidget):
         if cur == 0:
             self.potion.setVisible(True)
             self.attack.setVisible(False)
+            self.assist.setVisible(False)
+            self.buff.setVisible(False)
             self.special.setVisible(False)
         elif cur == 1:
             self.potion.setVisible(False)
             self.attack.setVisible(True)
+            self.assist.setVisible(False)
+            self.buff.setVisible(False)
             self.special.setVisible(False)
         elif cur == 2:
             self.potion.setVisible(False)
             self.attack.setVisible(False)
+            self.assist.setVisible(True)
+            self.buff.setVisible(False)
+            self.special.setVisible(False)
+        elif cur == 3:
+            self.potion.setVisible(False)
+            self.attack.setVisible(False)
+            self.assist.setVisible(False)
+            self.buff.setVisible(True)
+            self.special.setVisible(False)
+        elif cur == 4:
+            self.potion.setVisible(False)
+            self.attack.setVisible(False)
+            self.assist.setVisible(False)
+            self.buff.setVisible(False)
             self.special.setVisible(True)
 
 

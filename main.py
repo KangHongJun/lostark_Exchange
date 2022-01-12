@@ -5,7 +5,7 @@ from PyQt5.QtCore import *
 from selenium import webdriver
 from selenium.webdriver import DesiredCapabilities
 from Exchange import Battle_Item, Life, Reinforce
-from UI import Tab_Item, MakeTab
+from UI import Tab_Item, MakeUI
 
 '''
 #selenium 사용하기위한 webdriver옵션 세팅
@@ -62,7 +62,7 @@ class Main(QMainWindow):
     def __init__(self):
         super().__init__()
         self.initUI()
-        MakeTab.Make_Tab(self)
+        MakeUI.Make_Tab(self)
 
     def initUI(self):
         # UI 기본
