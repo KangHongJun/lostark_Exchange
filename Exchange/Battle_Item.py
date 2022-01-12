@@ -324,7 +324,7 @@ def ExAssistance(driver):
    cursor.execute("UPDATE Assistance SET Price = ? WHERE NAME = '페로몬 폭탄'", (Pheromones,))
    cursor.execute("UPDATE Assistance SET Price = ? WHERE NAME = '빛나는 만능 물약'", (SAll_purpose,))
    cursor.execute("UPDATE Assistance SET Price = ? WHERE NAME = '빛나는 위장 로브'", (SCamouflage,))
-   cursor.execute("UPDATE Assistance SET Price = ? WHERE NAME = '빛나는 모닥불'", (Scarecrow,))
+   cursor.execute("UPDATE Assistance SET Price = ? WHERE NAME = '빛나는 모닥불'", (SBonfire,))
    cursor.execute("UPDATE Assistance SET Price = ? WHERE NAME = '빛나는 도발 허수아비'", (SScarecrow,))
    cursor.execute("UPDATE Assistance SET Price = ? WHERE NAME = '빛나는 성스러운 부적'", (SAmulet,))
    cursor.execute("UPDATE Assistance SET Price = ? WHERE NAME = '은신 로브'", (Hiding,))
