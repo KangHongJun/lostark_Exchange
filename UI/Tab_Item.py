@@ -4,8 +4,6 @@ from PyQt5.QtCore import Qt
 import re
 import Function
 
-print(Function.GetData.All_Item_Data())
-
 #거래소
 def SetTableValue_Ex(self,list,row,col):
     #테이블 생성
