@@ -22,7 +22,7 @@ class Tab_Reinforce(QWidget):
         self.ui_ref = QWidget()
         self.ui_ref_add = QWidget()
 
-        UIitem = Tab_Item.Item_Reinfoece
+        UIitem = Tab_Item.Item_Reinforce
         UIitem.UI_Reforging_ALL(self)
         UIitem.UI_Reforging(self)
         UIitem.UI_Reforging_Add(self)
@@ -150,6 +150,7 @@ class Tab_Product(QWidget):
         self.buff()
         self.special()
 
+
         self.Stack_Product = QStackedWidget(self)
 
         hbox = QHBoxLayout(self)
@@ -185,7 +186,7 @@ class Tab_Product(QWidget):
         self.potion.insertItem(0, '회복약')
         self.potion.insertItem(1, '고급 회복약')
         self.potion.insertItem(2, '정령의 회복약')
-        self.potion.insertItem(2, '빛나는 정령의 회복약')
+        self.potion.insertItem(3, '빛나는 정령의 회복약')
 
         self.healing = QWidget()
         self.rare_healing = QWidget()
@@ -370,7 +371,6 @@ class Tab_Product(QWidget):
         UIitem.Trumpet(self)
         UIitem.Static_time(self)
         UIitem.SHiding(self)
-
 
         self.Stack_Assist = QStackedWidget(self)
         self.Stack_Assist.addWidget(self.signal_gun)

@@ -5,7 +5,8 @@ from PyQt5.QtCore import *
 from selenium import webdriver
 from selenium.webdriver import DesiredCapabilities
 from Exchange import Battle_Item, Life, Reinforce
-from UI import Tab_Item, MakeUI
+from UI import MakeUI
+import Function
 
 '''
 #selenium 사용하기위한 webdriver옵션 세팅
@@ -39,19 +40,7 @@ driver.implicitly_wait(10)
 driver.find_element_by_xpath('/html/body/div[2]/div/main/div/div[3]/div[1]/ul/li[8]/a').click()
 
 # DB갱신
-
-Battle_Item.ExPotion(driver)
-Battle_Item.ExBuff(driver)
-Battle_Item.ExAttack(driver)
-Battle_Item.ExAssistance(driver)
-Life.ExPlant(driver)
-Life.ExLogging(driver)
-Life.ExMining(driver)
-Life.ExHunting(driver)
-Life.ExFishing(driver)
-Life.ExArchaeology(driver)
-Reinforce.ExReforging(driver)
-Reinforce.ExReforging_Add(driver)
+Function.UpdataDB(driver)
 '''
 print("start")
 

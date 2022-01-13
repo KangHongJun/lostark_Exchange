@@ -4,27 +4,7 @@ from PyQt5.QtCore import Qt
 import re
 import Function
 
-#데이터 가져오기
-Reforging = GetData.Reforging_Data()
-Reforging_Add = GetData.Reforging_Add_Data()
-
-Potion = GetData.Potion_Data()
-Buff = GetData.Buff_Data()
-Attack = GetData.Attack_Data()
-Assistance = GetData.Assistance_Data()
-
-Plant = GetData.Plant_Data()
-Logging = GetData.Logging_Data()
-Mining = GetData.Mining_Data()
-Hunting = GetData.Hunting_Data()
-Fishing = GetData.Fishing_Data()
-Archaeology = GetData.Archaeology_Data()
-
-Reinforce = Reforging + Reforging_Add
-Life = Plant + Logging + Mining + Hunting + Fishing + Archaeology
-Battle_Item = Potion + Buff + Attack + Assistance
-
-ALL_ITEM = Reinforce + Life + Battle_Item
+print(Function.GetData.All_Item_Data())
 
 #거래소
 def SetTableValue_Ex(self,list,row,col):
@@ -67,9 +47,9 @@ def SetProduct(self,Item_name,Item_resipe):
 
 #return 제작품 가격
 def Item_cost(self,Item_name):
+    ALL_ITEM = GetData.All_Item_Data()
     name = re.findall(r'\D+', Item_name)
     number = re.findall(r'\d+', Item_name)
-
 
     for i in range(len(ALL_ITEM)):
         if ALL_ITEM[i][0] == name[0]:
@@ -79,18 +59,16 @@ def Item_cost(self,Item_name):
 
 #return 조합비용 - 아이템 이름, 아이템 개수 list
 def Product_cost(self,Item_name, Item_number):
+    ALL_ITEM = GetData.All_Item_Data()
     Len = int(len(Item_name))
-
-    #디버깅
-    #print(Item_number)
-    #print(Item_name)
 
     #전체 배열에서 해당하는 위치 가져오기
     num = []
     for j in range(Len-1):
-        for i in range(len(ALL_ITEM)-1):
+        for i in range(len(ALL_ITEM)):
             if ALL_ITEM[i][0] == Item_name[j]:
                 num.append(i)
+
     price = 0
     for q in range(Len-1):
         price += ALL_ITEM[num[q]][1] * int(Item_number[q])
@@ -100,60 +78,69 @@ def Product_cost(self,Item_name, Item_number):
 
 
 #강화재료 table
-class Item_Reinfoece:
+class Item_Reinforce:
+    Reforging = GetData.Reforging_Data()
+    Reforging_Add = GetData.Reforging_Add_Data()
+
+
     def UI_Reforging_ALL(self):
-        SetTableValue_Ex(self,Reforging + Reforging_Add,53,2)
+        SetTableValue_Ex(self,Item_Reinforce.Reforging + Item_Reinforce.Reforging_Add,53,2)
         layout = QFormLayout()
         layout.addWidget(self.tableWidget)
 
         self.ui_ref_all.setLayout(layout)
 
     def UI_Reforging(self):
-        SetTableValue_Ex(self,Reforging,21,2)
+        SetTableValue_Ex(self,Item_Reinforce.Reforging,21,2)
         layout = QFormLayout()
         layout.addWidget(self.tableWidget)
 
         self.ui_ref.setLayout(layout)
 
     def UI_Reforging_Add(self):
-        SetTableValue_Ex(self,Reforging_Add,32,2)
+        SetTableValue_Ex(self,Item_Reinforce.Reforging_Add,32,2)
         layout = QFormLayout()
         layout.addWidget(self.tableWidget)
 
         self.ui_ref_add.setLayout(layout)
 
+
 #배틀 아이템 table
 class Item_Battle:
+    Potion = GetData.Potion_Data()
+    Attack = GetData.Attack_Data()
+    Assistance = GetData.Assistance_Data()
+    Buff = GetData.Buff_Data()
     def UI_Battle_Item_ALL(self):
-        SetTableValue_Ex(self,Potion+Attack+Assistance+Buff,52,2)
+        SetTableValue_Ex(self,Item_Battle.Potion+Item_Battle.Attack+Item_Battle.Assistance+Item_Battle.Buff,52,2)
         layout = QFormLayout()
         layout.addWidget(self.tableWidget)
 
         self.ui_battle_all.setLayout(layout)
 
     def UI_Potion(self):
-        SetTableValue_Ex(self,Potion,4,2)
+        SetTableValue_Ex(self,Item_Battle.Potion,4,2)
         layout = QFormLayout()
         layout.addWidget(self.tableWidget)
 
         self.ui_potion.setLayout(layout)
 
     def UI_Attack(self):
-        SetTableValue_Ex(self,Attack,23,2)
+        SetTableValue_Ex(self,Item_Battle.Attack,23,2)
         layout = QFormLayout()
         layout.addWidget(self.tableWidget)
 
         self.ui_attack.setLayout(layout)
 
     def UI_Assistance(self):
-        SetTableValue_Ex(self,Assistance,18,2)
+        SetTableValue_Ex(self,Item_Battle.Assistance,18,2)
         layout = QFormLayout()
         layout.addWidget(self.tableWidget)
 
         self.ui_assistance.setLayout(layout)
 
     def UI_Buff(self):
-        SetTableValue_Ex(self,Buff,7,2)
+        SetTableValue_Ex(self,Item_Battle.Buff,7,2)
         layout = QFormLayout()
         layout.addWidget(self.tableWidget)
 
@@ -161,50 +148,57 @@ class Item_Battle:
 
 #생활 재료 table
 class Item_Life:
+    Plant = GetData.Plant_Data()
+    Logging = GetData.Logging_Data()
+    Mining = GetData.Mining_Data()
+    Hunting = GetData.Hunting_Data()
+    Fishing = GetData.Fishing_Data()
+    Archaeology = GetData.Archaeology_Data()
+
     def UI_Life_ALL(self):
-        SetTableValue_Ex(self,Plant+Logging+Mining+Hunting+Fishing+Archaeology,35,2)
+        SetTableValue_Ex(self,Item_Life.Plant+Item_Life.Logging+Item_Life.Mining+Item_Life.Hunting+Item_Life.Fishing+Item_Life.Archaeology,35,2)
         layout = QFormLayout()
         layout.addWidget(self.tableWidget)
 
         self.ui_life_all.setLayout(layout)
 
     def UI_Plant(self):
-        SetTableValue_Ex(self,Plant,6,2)
+        SetTableValue_Ex(self,Item_Life.Plant,6,2)
         layout = QFormLayout()
         layout.addWidget(self.tableWidget)
 
         self.ui_plant.setLayout(layout)
 
     def UI_Logging(self):
-        SetTableValue_Ex(self,Logging,3,2)
+        SetTableValue_Ex(self,Item_Life.Logging,3,2)
         layout = QFormLayout()
         layout.addWidget(self.tableWidget)
 
         self.ui_logging.setLayout(layout)
 
     def UI_Mining(self):
-        SetTableValue_Ex(self,Mining,3,2)
+        SetTableValue_Ex(self,Item_Life.Mining,3,2)
         layout = QFormLayout()
         layout.addWidget(self.tableWidget)
 
         self.ui_mining.setLayout(layout)
 
     def UI_Hunting(self):
-        SetTableValue_Ex(self,Hunting,5,2)
+        SetTableValue_Ex(self,Item_Life.Hunting,5,2)
         layout = QFormLayout()
         layout.addWidget(self.tableWidget)
 
         self.ui_hunting.setLayout(layout)
 
     def UI_Fishing(self):
-        SetTableValue_Ex(self,Fishing,5,2)
+        SetTableValue_Ex(self,Item_Life.Fishing,5,2)
         layout = QFormLayout()
         layout.addWidget(self.tableWidget)
 
         self.ui_fishing.setLayout(layout)
 
     def UI_Archaeology(self):
-        SetTableValue_Ex(self,Archaeology,4,2)
+        SetTableValue_Ex(self,Item_Life.Archaeology,4,2)
         layout = QFormLayout()
         layout.addWidget(self.tableWidget)
 

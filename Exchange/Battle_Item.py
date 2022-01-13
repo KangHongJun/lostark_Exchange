@@ -32,7 +32,9 @@ def ExPotion(driver):
 
    con = sqlite3.connect("./Battle_Item.db")
    cursor = con.cursor()
-   cursor.execute("UPDATE Potion SET Price = ? WHERE NAME = '회복약'", (Healing,))
+
+
+   cursor.execute("UPDATE Potion SET Price = ? WHERE NAME = ?", (Healing,'회복약',))
    cursor.execute("UPDATE Potion SET Price = ? WHERE NAME = '고급 회복약'", (Rare_Healing,))
    cursor.execute("UPDATE Potion SET Price = ? WHERE NAME = '정령의 회복약'", (Spirit_Healing,))
    cursor.execute("UPDATE Potion SET Price = ? WHERE NAME = '빛나는 정령의 회복약'", (SSpirit_Healing,))
@@ -332,6 +334,7 @@ def ExAssistance(driver):
    cursor.execute("UPDATE Assistance SET Price = ? WHERE NAME = '시간 정지 물약'", (Static_time,))
    cursor.execute("UPDATE Assistance SET Price = ? WHERE NAME = '빛나는 은신 로브'", (SHiding,))
    con.commit()
+   con.close()
 
 
 

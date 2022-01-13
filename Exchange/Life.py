@@ -194,3 +194,4 @@ def ExArchaeology(driver):
    cursor.execute("UPDATE Archaeology SET Price = ? WHERE NAME = '희귀한 유물'", (Rare_Relic,))
    cursor.execute("UPDATE Archaeology SET Price = ? WHERE NAME = '고대 유물'", (Ancient_Relic,))
    con.commit()
+   con.close()

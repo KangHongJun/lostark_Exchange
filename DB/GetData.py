@@ -73,3 +73,8 @@ def Archaeology_Data():
     Archaeology = pd.read_sql("SELECT * FROM Archaeology",conn,index_col=None)
     Archaeology_List = Archaeology.values.tolist()
     return Archaeology_List
+
+def All_Item_Data():
+    ALL_List = Reforging_Data() + Reforging_Add_Data() + Potion_Data() + Buff_Data() + \
+               Attack_Data() + Assistance_Data() + Plant_Data() + Logging_Data() + Mining_Data() + Hunting_Data() + Fishing_Data() +Archaeology_Data()
+    return ALL_List

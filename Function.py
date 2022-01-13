@@ -1,3 +1,19 @@
+from DB import GetData
+from Exchange import Battle_Item, Life, Reinforce
+
+def UpdataDB(driver):
+    Battle_Item.ExPotion(driver)
+    Battle_Item.ExBuff(driver)
+    Battle_Item.ExAttack(driver)
+    Battle_Item.ExAssistance(driver)
+    Life.ExPlant(driver)
+    Life.ExLogging(driver)
+    Life.ExMining(driver)
+    Life.ExHunting(driver)
+    Life.ExFishing(driver)
+    Life.ExArchaeology(driver)
+    Reinforce.ExReforging(driver)
+    Reinforce.ExReforging_Add(driver)
 
 #수수료 계산
 def Fee(value):
@@ -17,7 +33,7 @@ def check(value):
         value = 0
         return value
     else:
-        # ','이 포함됐다면 ',' 제거
+        # ','이 포함 됐다면 ',' 제거
         if( ',' in value.text):
             value = value.text
             value = value.replace(",","")

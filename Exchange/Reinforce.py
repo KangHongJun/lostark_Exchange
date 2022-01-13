@@ -332,4 +332,5 @@ def ExReforging_Add(driver):
    cursor.execute("UPDATE Reforging_Add SET Price = ? WHERE NAME = '야금술 : 단조 심화'", (Metallurgical6,))
    cursor.execute("UPDATE Reforging_Add SET Price = ? WHERE NAME = '재봉술 : 수선 심화'", (Sewing6,))
    con.commit()
+   con.close()
 
