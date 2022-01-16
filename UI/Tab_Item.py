@@ -4,9 +4,8 @@ from PyQt5.QtCore import Qt
 import re
 import Function
 
-#거래소
+#아이템 목록 테이블 - 리스트, 행, 열 개수
 def SetTableValue_Ex(self,list,row,col):
-    #테이블 생성
     self.tableWidget = QTableWidget(self)
     self.tableWidget.setRowCount(row)
     self.tableWidget.setColumnCount(col)
@@ -22,20 +21,23 @@ def SetTableValue_Ex(self,list,row,col):
         self.tableWidget.setItem(i, 1, price)
         i = i + 1
 
-#제작정보
+#제작정보 - 아이템 이름/개수, 조합법
 def SetProduct(self,Item_name,Item_resipe):
-    #조합법의 이름 및 숫자 구분하여 저장
-    name = re.findall(r'\D+', Item_resipe)
-    number = re.findall(r'\d+', Item_resipe)
+    #조합법의 이름 및 숫자 구분하여 리스트로 저장
+    resipe_name = re.findall(r'\D+', Item_resipe)
+    resipe_number = re.findall(r'\d+', Item_resipe)
 
+    #판매가격(수수료 계산)
     cost = str(Item_cost(self,Item_name))
-    product = str(Product_cost(self, name, number))
+    #조합비용
+    product = str(Product_cost(self, resipe_name, resipe_number))
 
+    #위젯 생성
     self.label = QTextBrowser(self)
     i = 0
     self.label.append(Item_name + "개 조합법\n")
-    for i in range(len(name)):
-        self.label.append(name[i]+" "+number[i])
+    for i in range(len(resipe_name)):
+        self.label.append(resipe_name[i]+" "+resipe_number[i])
 
     self.label.append("\n판매가격 : " + cost)
     self.label.append("제작비용 : "+ product)
@@ -43,12 +45,14 @@ def SetProduct(self,Item_name,Item_resipe):
     benefit = round((float(cost)-float(product)),2)
     self.label.append("\n이득액 :" +str(benefit))
 
-#return 제작품 가격
+#return 제작품 가격 - 아이템 이름/개수
 def Item_cost(self,Item_name):
+    #아이템 전체 리스트
     ALL_ITEM = GetData.All_Item_Data()
     name = re.findall(r'\D+', Item_name)
     number = re.findall(r'\d+', Item_name)
 
+    #동일한 값 찾아서 계산 - 아이템 가격 * 아이템 개수
     for i in range(len(ALL_ITEM)):
         if ALL_ITEM[i][0] == name[0]:
             price = ALL_ITEM[i][1] - Function.Fee(ALL_ITEM[i][1])
@@ -66,20 +70,20 @@ def Product_cost(self,Item_name, Item_number):
         for i in range(len(ALL_ITEM)):
             if ALL_ITEM[i][0] == Item_name[j]:
                 num.append(i)
-
-    price = 0
+    #위에서 찾은 위치로 가격 * 개수 + 조합비
+    cost = 0
     for q in range(Len-1):
-        price += ALL_ITEM[num[q]][1] * int(Item_number[q])
-    price = round(price+int(Item_number[Len-1]), 2)
+        cost += ALL_ITEM[num[q]][1] * int(Item_number[q])
+    cost = round(cost+int(Item_number[Len-1]), 2)
 
-    return price
+    return cost
 
 
 #강화재료 table
 class Item_Reinforce:
+    #강화재료 리스트
     Reforging = GetData.Reforging_Data()
     Reforging_Add = GetData.Reforging_Add_Data()
-
 
     def UI_Reforging_ALL(self):
         SetTableValue_Ex(self,Item_Reinforce.Reforging + Item_Reinforce.Reforging_Add,53,2)
