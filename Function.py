@@ -26,7 +26,7 @@ def check(value):
             return value
 
 def Life_check(name,value):
-    Life_list = ['들꽃','목재','두툼한 생고기','철광석','생선','고고학']
+    Life_list = ['들꽃','목재','두툼한 생고기','철광석','생선','고대 유물']
     if value is None:
         value = 0
         return value
